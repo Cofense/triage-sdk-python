@@ -50,12 +50,10 @@ def test_request_malformed_json(requests_mock, triage, fixture_from_file):
 
 def test_api_url(triage):
     assert (
-        triage.api_url("endpoint")
-        == "https://some-triage-host/api/public/v1/endpoint"
+        triage.api_url("endpoint") == "https://some-triage-host/api/public/v1/endpoint"
     )
     assert (
-        triage.api_url("/endpoint")
-        == "https://some-triage-host/api/public/v1/endpoint"
+        triage.api_url("/endpoint") == "https://some-triage-host/api/public/v1/endpoint"
     )
     assert (
         triage.api_url("///endpoint/edit?query_string&")

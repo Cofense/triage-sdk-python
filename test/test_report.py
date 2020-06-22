@@ -3,8 +3,8 @@ from cofense_triage.report import Report
 
 def test_attrs(requests_mock, triage, fixture_from_file):
     requests_mock.get(
-	"https://some-triage-host/api/public/v1/reports/6",
-	text=fixture_from_file("single_report.json"),
+        "https://some-triage-host/api/public/v1/reports/6",
+        text=fixture_from_file("single_report.json"),
     )
     requests_mock.get(
         "https://some-triage-host/api/public/v1/reporters/5331",

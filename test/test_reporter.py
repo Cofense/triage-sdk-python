@@ -17,9 +17,7 @@ def test_exists(requests_mock, triage, fixture_from_file):
         "https://some-triage-host/api/public/v1/reporters/5",
         text=fixture_from_file("reporters.json"),
     )
-    requests_mock.get(
-        "https://some-triage-host/api/public/v1/reporters/6", text="[]"
-    )
+    requests_mock.get("https://some-triage-host/api/public/v1/reporters/6", text="[]")
 
     assert Reporter.fetch(triage, 5).exists is True
     assert Reporter.fetch(triage, 6).exists is False
