@@ -28,17 +28,6 @@ def test_request_unsuccessful(requests_mock, triage):
         assert e.message == "Call to Cofense Triage failed (403): a bad error"
 
 
-def test_request_raw(requests_mock, triage, fixture_from_file):
-    requests_mock.get(
-        "https://some-triage-host/api/public/v1/processed_reports",
-        text=fixture_from_file("processed_reports.json"),
-    )
-
-    response = triage.request("processed_reports", raw_response=True)
-
-    assert response.__class__.__name__ == "Response"
-
-
 def test_request_empty(requests_mock, triage):
     requests_mock.get(
         "https://some-triage-host/api/public/v1/processed_reports", text="[]"

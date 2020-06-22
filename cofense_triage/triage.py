@@ -14,7 +14,7 @@ class Triage:
         self.user = user
         self.api_version = api_version
 
-    def request(self, endpoint, params=None, body=None, raw_response=False):
+    def request(self, endpoint, params=None, body=None):
         """
         Make a request to the configured Triage instance and return the result.
         """
@@ -34,9 +34,6 @@ class Triage:
         if response.status_code == 206:
             # 206 indicates Partial Content. The reason will be in the warning header.
             print(str(response.headers))
-
-        if raw_response:
-            return response
 
         if not response.text or response.text == "[]":
             return {}
