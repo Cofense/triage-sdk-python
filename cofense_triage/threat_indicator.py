@@ -27,15 +27,3 @@ class ThreatIndicator:
 
     def to_json(self):
         return json.dumps(self.attrs)
-
-    @classmethod
-    def fetch(cls, triage):
-        """Fetch threat indicators from Triage"""
-        # TODO params.permit(:type, :level, :start_date, :end_date, :page, :per_page)
-
-        response = triage.request(f"threat_indicators")
-
-        return [
-            cls(triage, threat_indicator_attrs)
-            for threat_indicator_attrs in response
-        ]

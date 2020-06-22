@@ -12,8 +12,16 @@ def mock_triage_responses(requests_mock, fixture_from_file):
         text=fixture_from_file("single_report.json"),
     )
     requests_mock.get(
-        "https://some-triage-host/api/public/v1/threat_indicators",
-        text=fixture_from_file("threat_indicators.json"),
+        "https://some-triage-host/api/public/v1/threat_indicators?per_page=1&page=0",
+        text=fixture_from_file("threat_indicators_page0.json"),
+    )
+    requests_mock.get(
+        "https://some-triage-host/api/public/v1/threat_indicators?per_page=1&page=1",
+        text=fixture_from_file("threat_indicators_page1.json"),
+    )
+    requests_mock.get(
+        "https://some-triage-host/api/public/v1/threat_indicators?per_page=1&page=2",
+        text="[]",
     )
 
 
@@ -31,7 +39,7 @@ def test_fetch_report(triage):
 
 
 def test_fetch_threat_indicators(triage):
-    threat_indicators = triage.fetch_threat_indicators()
+    threat_indicator_pages = triage.fetch_threat_indicators({"per_page": 1}).pages
 
-    assert threat_indicators[0].threat_key == "Domain"
-    assert threat_indicators[0].threat_value == "malicious.example.com"
+    page1 = next(threat_indicator_pages)
+    assert page1[0].threat_value == "malicious.example.com"

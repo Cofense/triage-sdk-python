@@ -4,7 +4,7 @@ import requests
 from cofense_triage.errors import TriageRequestFailedError
 from cofense_triage.report import Report
 from cofense_triage.reporter import Reporter
-from cofense_triage.threat_indicator import ThreatIndicator
+from cofense_triage.threat_indicators import ThreatIndicators
 
 
 class Triage:
@@ -51,8 +51,8 @@ class Triage:
     def fetch_reporter(self, reporter_id):
         return Reporter.fetch(self, reporter_id)
 
-    def fetch_threat_indicators(self):
-        return ThreatIndicator.fetch(self)
+    def fetch_threat_indicators(self, attrs):
+        return ThreatIndicators(self, attrs)
 
     def api_url(self, endpoint):
         """Return a full URL for the configured Triage host and the specified endpoint"""
