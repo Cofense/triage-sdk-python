@@ -1,5 +1,3 @@
-import json
-
 from cofense_triage.errors import TriageRequestFailedError
 from cofense_triage.report import Report
 from cofense_triage.reporter import Reporter
@@ -17,7 +15,12 @@ class Triage:
         )
 
     def fetch_processed_reports(self):
-        self.api_client.get_document("reports")
+        return (
+            Report(document)
+            for document in self.api_client.get_document(
+                "reports", filter_params={"location": "Processed"}
+            )
+        )
 
     def fetch_report(self, report_id):
         return Report.fetch(self, report_id)
