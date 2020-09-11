@@ -1,40 +1,42 @@
-import functools
-import json
-
-
 class Reporter:
     """An end user who has reported a suspicious message"""
 
-    def __init__(self, triage, attrs):
-        self.triage = triage
-        self.attrs = attrs
+    def __init__(self, document):
+        self.document = document
+
+    def reporter_id(self):
+        return self.document.id
 
     @property
     def email(self):
-        return self.attrs["email"]
-
-    @property
-    def credibility_score(self):
-        return self.attrs["credibility_score"]
+        return self.document.email
 
     @property
     def reports_count(self):
-        return self.attrs["reports_count"]
+        return self.document.reports_count
 
     @property
-    def exists(self):
-        return bool(self.attrs)
+    def last_reported_at(self):
+        return self.document.last_reported_at
 
-    def to_json(self):
-        return json.dumps(self.attrs)
+    @property
+    def reputation_score(self):
+        return self.document.reputation_score
 
-    @classmethod
-    def fetch(cls, triage, reporter_id):
-        """Fetch data for the first matching reporter from Triage"""
-        response = triage.request(f"reporters/{reporter_id}")
+    @property
+    def vip(self):
+        return self.document.vip
 
-        if not response:
-            print(f"could not find report with id {response}")
-            return cls(triage, {})
+    @property
+    def created_at(self):
+        return self.document.created_at
 
-        return cls(triage, response[0])
+    @property
+    def updated_at(self):
+        return self.document.updated_at
+
+    @property
+    def reports(self):
+        from cofense_triage.report import Report
+
+        return (Report(document) for document in self.document.reports)

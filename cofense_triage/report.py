@@ -1,52 +1,80 @@
-import functools
-import json
-
-
 class Report:
     """
     Class representing a Triage report by an end-user of a suspicious message
     """
 
-    def __init__(self, triage, attrs):
-        self.triage = triage
-        self.attrs = attrs
+    def __init__(self, document):
+        self.document = document
 
     @property
     def report_id(self):
-        return self.attrs["id"]
+        return self.document.id
 
     @property
-    def report_body(self):
-        return self.attrs["report_body"]
+    def location(self):
+        return self.document.location
+
+    @property
+    def from_address(self):
+        return self.document.from_address
+
+    @property
+    def subject(self):
+        return self.document.subject
+
+    @property
+    def received_at(self):
+        return self.document.received_at
+
+    @property
+    def reported_at(self):
+        return self.document.reported_at
+
+    @property
+    def headers(self):
+        return self.document.headers
+
+    @property
+    def body(self):
+        return self.document.body
+
+    @property
+    def md5(self):
+        return self.document.md5
+
+    @property
+    def sha256(self):
+        return self.document.sha256
+
+    @property
+    def match_priority(self):
+        return self.document.match_priority
+
+    @property
+    def tags(self):
+        return self.document.tags
+
+    @property
+    def categorization_tags(self):
+        return self.document.categorization_tags
+
+    @property
+    def processed_at(self):
+        return self.document.processed_at
 
     @property
     def created_at(self):
-        return self.attrs["created_at"]
+        return self.document.created_at
 
     @property
-    def reporter_id(self):
-        return self.attrs["reporter_id"]
+    def updated_at(self):
+        return self.document.updated_at
 
     @property
-    @functools.lru_cache()
     def reporter(self):
-        return self.triage.fetch_reporter(self.attrs["reporter_id"])
+        from cofense_triage.reporter import Reporter
 
-    @property
-    def exists(self):
-        return bool(self.attrs)
+        return Reporter(self.document.reporter[0])
 
     def to_json(self):
-        return json.dumps(self.attrs)
-
-    @classmethod
-    def fetch(cls, triage, report_id):
-        """Fetch data for the first matching report from Triage"""
-
-        response = triage.request(f"reports/{report_id}")
-
-        if not response:
-            print(f"could not find report with id {response}")
-            return cls(triage, {})
-
-        return cls(triage, response[0])
+        return "TODO"  # TODO
