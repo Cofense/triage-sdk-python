@@ -1,4 +1,4 @@
-class TriageRequestFailedError(Exception):
+class TriageRequestFailedError(BaseException):
     """Triage responded with something other than a normal 200 response"""
 
     def __init__(self, status_code, message):
