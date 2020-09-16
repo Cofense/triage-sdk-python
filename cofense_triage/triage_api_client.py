@@ -17,11 +17,8 @@ class TriageApiClient:
             "https://tap.phishmecloud.com", request_kwargs={"auth": auth}
         )
 
-    def get_document(self, resource_type, resource_id=None, filter_params=None):
+    def get_document(self, resource_type, filter_params=None):
         path = f"api/public/v2/{resource_type}"
-
-        if resource_id:
-            return self.jsonapi_session.get(path, resource_id)
 
         if filter_params:
             return self.jsonapi_session.iterate(path, FilterParams(filter_params))

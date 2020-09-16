@@ -19,10 +19,7 @@ class Triage:
             Report(document)
             for document in self.api_client.get_document(
                 "reports",
-                filter_params=filter_params
-                + [
-                    {"attribute": "location", "value": "Processed"},
-                ],
+                filter_params + [{"attribute": "location", "value": "Processed"}],
             )
         )
 
