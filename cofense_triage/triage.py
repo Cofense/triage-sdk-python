@@ -26,6 +26,12 @@ class Triage:
             )
         )
 
+    def fetch_processed_reports_since(self, date, filter_params=[]):
+        """Convenience method for fetch_processed_reports with created_at_gt filter"""
+        return self.fetch_processed_reports(
+            [{"attribute": "created_at", "value": date, "op": "gt"}]
+        )
+
     def fetch_report(self, report_id):
         return Report.fetch(self, report_id)
 
