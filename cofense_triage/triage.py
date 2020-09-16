@@ -1,7 +1,7 @@
 from cofense_triage.errors import ReporterNotFoundError
 from cofense_triage.report import Report
 from cofense_triage.reporter import Reporter
-from cofense_triage.threat_indicators import ThreatIndicators
+from cofense_triage.threat_indicator import ThreatIndicator
 from cofense_triage.triage_api_client import TriageApiClient
 
 
@@ -52,5 +52,10 @@ class Triage:
             filter_params + [{"attribute": "email", "value": address}]
         )
 
-    def fetch_threat_indicators(self, attrs):
-        pass
+    def fetch_threat_indicators(self, filter_params=[]):
+        return (
+            ThreatIndicator(document)
+            for document in self.api_client.get_document(
+                "triage_threat_indicators", filter_params
+            )
+        )
