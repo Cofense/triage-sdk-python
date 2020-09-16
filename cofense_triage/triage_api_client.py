@@ -1,4 +1,5 @@
 from authlib.integrations.requests_client import OAuth2Session, OAuth2Auth
+from cofense_triage.filter_params import FilterParams
 import jsonapi_client
 
 
@@ -23,6 +24,4 @@ class TriageApiClient:
             return self.jsonapi_session.get(path, resource_id)
 
         if filter_params:
-            return self.jsonapi_session.iterate(
-                path, jsonapi_client.Filter(**filter_params)
-            )
+            return self.jsonapi_session.iterate(path, FilterParams(filter_params))

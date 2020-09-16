@@ -14,11 +14,15 @@ class Triage:
             client_secret=client_secret,
         )
 
-    def fetch_processed_reports(self):
+    def fetch_processed_reports(self, filter_params=[]):
         return (
             Report(document)
             for document in self.api_client.get_document(
-                "reports", filter_params={"location": "Processed"}
+                "reports",
+                filter_params=filter_params
+                + [
+                    {"attribute": "location", "value": "Processed"},
+                ],
             )
         )
 
