@@ -14,26 +14,43 @@ class Triage:
             client_secret=client_secret,
         )
 
-    def fetch_processed_reports(self, filter_params=[]):
+    def fetch_reports(self, filter_params=[], resource_type="reports"):
         return (
             Report(document)
-            for document in self.api_client.get_document(
-                "reports",
-                filter_params + [{"attribute": "location", "value": "Processed"}],
-            )
+            for document in self.api_client.get_document(resource_type, filter_params)
+        )
+
+    def fetch_processed_reports(self, filter_params=[]):
+        return self.fetch_reports(
+            filter_params + [{"attribute": "location", "value": "Processed"}]
         )
 
     def fetch_processed_reports_since(self, date, filter_params=[]):
-        """Convenience method for fetch_processed_reports with created_at_gt filter"""
         return self.fetch_processed_reports(
-            [{"attribute": "created_at", "value": date, "op": "gt"}]
+            filter_params + [{"attribute": "created_at", "value": date, "op": "gt"}]
         )
 
-    def fetch_report(self, report_id):
-        return Report.fetch(self, report_id)
+    def fetch_processed_reports_by_reporter(self, address, filter_params=[]):
+        reporters = list(self.fetch_reporters_by_address(address))
 
-    def fetch_reporter(self, reporter_id):
-        return Reporter.fetch(self, reporter_id)
+        if not len(reporters) == 1:
+            raise ReporterNotFoundError(address)
+
+        return self.fetch_reports(
+            filter_params + [{"attribute": "location", "value": "Processed"}],
+            resource_type=f"reporters/{reporters[0].reporter_id}/reports",
+        )
+
+    def fetch_reporters(self, filter_params=[]):
+        return (
+            Reporter(document)
+            for document in self.api_client.get_document("reporters", filter_params)
+        )
+
+    def fetch_reporters_by_address(self, address, filter_params=[]):
+        return self.fetch_reporters(
+            filter_params + [{"attribute": "email", "value": address}]
+        )
 
     def fetch_threat_indicators(self, attrs):
-        return ThreatIndicators(self, attrs)
+        pass
