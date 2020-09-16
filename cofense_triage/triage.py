@@ -1,4 +1,4 @@
-from cofense_triage.errors import TriageRequestFailedError
+from cofense_triage.errors import ReporterNotFoundError
 from cofense_triage.report import Report
 from cofense_triage.reporter import Reporter
 from cofense_triage.threat_indicators import ThreatIndicators
