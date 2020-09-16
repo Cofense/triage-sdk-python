@@ -22,3 +22,5 @@ class TriageApiClient:
 
         if filter_params:
             return self.jsonapi_session.iterate(path, FilterParams(filter_params))
+
+        return self.jsonapi_session.iterate(path)
