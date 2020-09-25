@@ -22,12 +22,12 @@ class Triage:
 
     def fetch_processed_reports(self, filter_params=[]):
         return self.fetch_reports(
-            filter_params + [{"attribute": "location", "value": "Processed"}]
+            filter_params + [{"attr": "location", "val": "Processed"}]
         )
 
     def fetch_processed_reports_since(self, date, filter_params=[]):
         return self.fetch_processed_reports(
-            filter_params + [{"attribute": "created_at", "value": date, "op": "gt"}]
+            filter_params + [{"attr": "created_at", "val": date, "op": "gt"}]
         )
 
     def fetch_processed_reports_by_reporter(self, address, filter_params=[]):
@@ -37,7 +37,7 @@ class Triage:
             raise ReporterNotFoundError(address)
 
         return self.fetch_reports(
-            filter_params + [{"attribute": "location", "value": "Processed"}],
+            filter_params + [{"attr": "location", "val": "Processed"}],
             resource_type=f"reporters/{reporters[0].reporter_id}/reports",
         )
 
@@ -48,9 +48,7 @@ class Triage:
         )
 
     def fetch_reporters_by_address(self, address, filter_params=[]):
-        return self.fetch_reporters(
-            filter_params + [{"attribute": "email", "value": address}]
-        )
+        return self.fetch_reporters(filter_params + [{"attr": "email", "val": address}])
 
     def fetch_threat_indicators(self, filter_params=[]):
         return (
