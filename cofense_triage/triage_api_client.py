@@ -9,12 +9,12 @@ class TriageApiClient:
             raise "unsupported API version"
 
         oauth2_session = OAuth2Session(client_id, client_secret)
-        token = oauth2_session.fetch_token("https://tap.phishmecloud.com/oauth/token")
+        token = oauth2_session.fetch_token(f"{host}/oauth/token")
         auth = OAuth2Auth(token, client=oauth2_session)
         # TODO using OAuth2Auth directly instead of the session forces us to deal with token refreshing manually, which we have not implemented
 
         self.jsonapi_session = jsonapi_client.Session(
-            "https://tap.phishmecloud.com", request_kwargs={"auth": auth}
+            host, request_kwargs={"auth": auth}
         )
 
     def get_document(self, resource_type, filter_params=None):
