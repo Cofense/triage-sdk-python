@@ -1,6 +1,6 @@
 import pytest
 
-from cofense_triage.errors import TriageRequestFailedError
+#from cofense_triage.errors import TriageRequestFailedError
 
 
 def test_request(requests_mock, triage, fixture_from_file):
