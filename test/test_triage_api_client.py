@@ -25,7 +25,7 @@ class TestTriageApiClient:
             client_secret="great_client_secret",
         )
 
-        mock_auth_args = mock_auth.call_args_list[0][0][0]
+        mock_auth_args = mock_auth.call_args[0][0]
         assert mock_auth_args["access_token"] == "great-access-token"
 
         mock_session.assert_called_once_with(
