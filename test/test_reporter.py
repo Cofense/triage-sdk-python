@@ -6,6 +6,7 @@ def test_parse(requests_mock, triage, fixture_from_file):
 
     reporter = next(triage.fetch_reporters())
 
+    assert reporter.reporter_id == "1"
     assert reporter.email == "darren@example.com"
     assert reporter.reputation_score == 15
     assert reporter.created_at == "2020-09-22T05:52:20.669Z"
