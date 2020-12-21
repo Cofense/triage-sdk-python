@@ -1,61 +1,26 @@
 import pytest
 
-#from cofense_triage.errors import TriageRequestFailedError
+from cofense_triage import Triage
 
 
-def test_request(requests_mock, triage, fixture_from_file):
+@pytest.fixture
+def triage(mock_oauth_token):
+    return Triage(
+        host="https://triage.example.com",
+        api_version=2,
+        client_id="some-client-id",
+        client_secret="some-client-secret",
+    )
+
+
+def test_fetch_reporters_by_address(requests_mock, triage, fixture_from_file):
     requests_mock.get(
-        "https://some-triage-host/api/public/v1/processed_reports",
-        text=fixture_from_file("processed_reports.json"),
+        "https://triage.example.com/api/public/v2/reporters?filter%5Bemail%5D=reporter1@example.com",
+        text=fixture_from_file("reporters_filter_email.json"),
     )
 
-    requests = triage.request("processed_reports")
+    reporter = next(triage.fetch_reporters_by_address("reporter1@example.com"))
 
-    assert len(requests) == 2
-    assert requests[0]["report_subject"] == "suspicious subject"
-
-
-def test_request_unsuccessful(requests_mock, triage):
-    requests_mock.get(
-        "https://some-triage-host/api/public/v1/processed_reports",
-        status_code=403,
-        text="a bad error",
-    )
-
-    with pytest.raises(TriageRequestFailedError) as e:
-        triage.request("processed_reports")
-
-        assert e.message == "Call to Cofense Triage failed (403): a bad error"
-
-
-def test_request_empty(requests_mock, triage):
-    requests_mock.get(
-        "https://some-triage-host/api/public/v1/processed_reports", text="[]"
-    )
-
-    assert triage.request("processed_reports") == {}
-
-
-def test_request_malformed_json(requests_mock, triage, fixture_from_file):
-    requests_mock.get(
-        "https://some-triage-host/api/public/v1/processed_reports",
-        text=fixture_from_file("malformed_json.not_json"),
-    )
-
-    with pytest.raises(TriageRequestFailedError) as e:
-        triage.request("processed_reports")
-
-        assert e.message == "Could not parse result from Cofense Triage (200)"
-
-
-def test_api_url(triage):
-    assert (
-        triage.api_url("endpoint") == "https://some-triage-host/api/public/v1/endpoint"
-    )
-    assert (
-        triage.api_url("/endpoint") == "https://some-triage-host/api/public/v1/endpoint"
-    )
-    assert (
-        triage.api_url("///endpoint/edit?query_string&")
-        == "https://some-triage-host/api/public/v1/endpoint/edit?query_string&"
-    )
+    assert reporter.email == "darren@example.com"
+    assert reporter.reputation_score == 15
+    assert reporter.created_at == "2020-09-22T05:52:20.669Z"
