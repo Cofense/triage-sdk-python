@@ -1,3 +1,6 @@
+import json
+
+
 class Reporter:
     """An end user who has reported a suspicious message"""
 
@@ -16,3 +19,6 @@ class Reporter:
         from cofense_triage.report import Report
 
         return (Report(document) for document in self.document["reports"])
+
+    def to_json(self):
+        return json.dumps(self.document.json)
