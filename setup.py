@@ -10,6 +10,8 @@ setuptools.setup(
     license="",
     packages=setuptools.find_packages(),
     install_requires=[
+        "authlib",
+        "jsonapi_client",
         "requests",
     ],
 )
