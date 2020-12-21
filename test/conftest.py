@@ -1,5 +1,7 @@
 import pytest
 
+from cofense_triage import Triage
+
 
 @pytest.fixture
 def fixture_from_file():
@@ -8,6 +10,15 @@ def fixture_from_file():
             return file.read()
 
     return read_fixture_from_file
+
+@pytest.fixture
+def triage(mock_oauth_token):
+    return Triage(
+        host="https://triage.example.com",
+        api_version=2,
+        client_id="some-client-id",
+        client_secret="some-client-secret",
+    )
 
 @pytest.fixture
 def mock_oauth_token(requests_mock):
