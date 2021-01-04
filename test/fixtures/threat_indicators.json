@@ -1,0 +1,27 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "type": "threat_indicators",
+      "links": {
+        "self": "https://triage.example.com/api/public/v2/threat_indicators/1"
+      },
+      "attributes": {
+        "threat_level": "Malicious",
+        "threat_type": "Sender",
+        "threat_value": "zoe.watts@example.org",
+        "threat_source": "Triage-UI",
+        "created_at": "2020-09-22T05:52:21.907Z",
+        "updated_at": "2020-09-23T08:32:12.307Z"
+      },
+      "relationships": {
+        "reports": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/threat_indicators/1/relationships/reports",
+            "related": "https://triage.example.com/api/public/v2/threat_indicators/1/reports"
+          }
+        }
+      }
+    }
+  ]
+}

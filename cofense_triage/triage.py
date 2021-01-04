@@ -54,6 +54,6 @@ class Triage:
         return (
             ThreatIndicator(document)
             for document in self.api_client.get_document(
-                "triage_threat_indicators", filter_params
+                "threat_indicators", filter_params
             )
         )
