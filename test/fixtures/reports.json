@@ -1,0 +1,120 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "type": "reports",
+      "links": {
+        "self": "https://triage.example.com/api/public/v2/reports/1"
+      },
+      "attributes": {
+        "location": "Inbox",
+        "risk_score": 83,
+        "from_address": "zack.bins@example.net",
+        "subject": "Eveniet voluptatem dolor rerum",
+        "received_at": "2020-09-21T03:12:30.458Z",
+        "reported_at": "2020-09-22T05:52:20.859Z",
+        "raw_headers": "Sit: asperiores\r\nAssumenda: dignissimos\r\nDolor: quae\r\nIn: pariatur",
+        "text_body": "Earum debitis quisquam. Earum accusamus consequatur. Ex molestiae voluptas.",
+        "html_body": "<html><body><p>Earum debitis quisquam. Earum accusamus consequatur. Ex molestiae voluptas.</p></body></html>",
+        "md5": "7cc5557439eb39e19f69f1f1a9c57487",
+        "sha256": "67dff22960e6839d06168a31f83891d2df8cf57b21e3ae7faf6be60ba2e2d00c",
+        "match_priority": 3,
+        "tags": [
+          "one",
+          "two"
+        ],
+        "categorization_tags": [
+          "one",
+          "two"
+        ],
+        "processed_at": null,
+        "created_at": "2020-09-22T05:52:20.859Z",
+        "updated_at": "2020-09-23T08:32:11.260Z"
+      },
+      "relationships": {
+        "assignee": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/reports/1/relationships/assignee",
+            "related": "https://triage.example.com/api/public/v2/reports/1/assignee"
+          },
+          "data": {
+            "type": "assignees",
+            "id": "1"
+          }
+        },
+        "category": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/reports/1/relationships/category",
+            "related": "https://triage.example.com/api/public/v2/reports/1/category"
+          },
+          "data": {
+            "type": "categories",
+            "id": "1"
+          }
+        },
+        "cluster": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/reports/1/relationships/cluster",
+            "related": "https://triage.example.com/api/public/v2/reports/1/cluster"
+          },
+          "data": {
+            "type": "clusters",
+            "id": "1"
+          }
+        },
+        "reporter": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/reports/1/relationships/reporter",
+            "related": "https://triage.example.com/api/public/v2/reports/1/reporter"
+          },
+          "data": {
+            "type": "reporters",
+            "id": "1"
+          }
+        },
+        "attachment_payloads": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/reports/1/relationships/attachment_payloads",
+            "related": "https://triage.example.com/api/public/v2/reports/1/attachment_payloads"
+          }
+        },
+        "attachments": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/reports/1/relationships/attachments",
+            "related": "https://triage.example.com/api/public/v2/reports/1/attachments"
+          }
+        },
+        "headers": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/reports/1/relationships/headers",
+            "related": "https://triage.example.com/api/public/v2/reports/1/headers"
+          }
+        },
+        "hostnames": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/reports/1/relationships/hostnames",
+            "related": "https://triage.example.com/api/public/v2/reports/1/hostnames"
+          }
+        },
+        "urls": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/reports/1/relationships/urls",
+            "related": "https://triage.example.com/api/public/v2/reports/1/urls"
+          }
+        },
+        "rules": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/reports/1/relationships/rules",
+            "related": "https://triage.example.com/api/public/v2/reports/1/rules"
+          }
+        },
+        "threat_indicators": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/reports/1/relationships/threat_indicators",
+            "related": "https://triage.example.com/api/public/v2/reports/1/threat_indicators"
+          }
+        }
+      }
+    }
+  ]
+}
