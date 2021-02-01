@@ -1,9 +1,9 @@
 import json
 
 
-class Report:
+class AttachmentPayload:
     """
-    Class representing a Triage report by an end-user of a suspicious message
+    Details of a message attachment
     """
 
     def __init__(self, document):
@@ -13,16 +13,8 @@ class Report:
         return self.document[name]
 
     @property
-    def report_id(self):
+    def attachment_payload_id(self):
         return self.document.id
-
-    @property
-    def jpg_url(self):
-        return self.document.links.self.url + "/download.jpg"
-
-    @property
-    def png_url(self):
-        return self.document.links.self.url + "/download.png"
 
     @property
     def attachments(self):
@@ -31,10 +23,10 @@ class Report:
         return (Attachment(attachment) for attachment in self.document["attachments"])
 
     @property
-    def reporter(self):
-        from cofense_triage.reporter import Reporter
+    def reports(self):
+        from cofense_triage.report import Report
 
-        return Reporter(self.document["reporter"][0])
+        return (Report(report) for report in self.document["report"])
 
     def to_json(self):
         return json.dumps(self.document.json)

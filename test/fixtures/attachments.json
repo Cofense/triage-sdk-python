@@ -1,0 +1,50 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "type": "attachments",
+      "links": {
+        "self": "https://triage.example.com/api/public/v2/attachments/1"
+      },
+      "attributes": {
+        "filename": "taco_menu.pdf",
+        "size": 640751,
+        "is_child": false,
+        "created_at": "2020-09-22T05:52:18.605Z",
+        "updated_at": "2020-09-23T08:32:09.006Z"
+      },
+      "relationships": {
+        "attachment_payload": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/attachments/1/relationships/attachment_payload",
+            "related": "https://triage.example.com/api/public/v2/attachments/1/attachment_payload"
+          },
+          "data": {
+            "type": "attachment_payloads",
+            "id": "1"
+          }
+        },
+        "parent": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/attachments/1/relationships/parent",
+            "related": "https://triage.example.com/api/public/v2/attachments/1/parent"
+          },
+          "data": {
+            "type": "attachments",
+            "id": "1"
+          }
+        },
+        "report": {
+          "links": {
+            "self": "https://triage.example.com/api/public/v2/attachments/1/relationships/report",
+            "related": "https://triage.example.com/api/public/v2/attachments/1/report"
+          },
+          "data": {
+            "type": "reports",
+            "id": "1"
+          }
+        }
+      }
+    }
+  ]
+}
