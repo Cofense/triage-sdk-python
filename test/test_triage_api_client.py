@@ -29,5 +29,6 @@ class TestTriageApiClient:
         assert mock_auth_args["access_token"] == "great-access-token"
 
         mock_session.assert_called_once_with(
-            "https://some-triage-host", request_kwargs={"auth": mock_auth()}
+            "https://some-triage-host/api/public/v2",
+            request_kwargs={"auth": mock_auth()},
         )

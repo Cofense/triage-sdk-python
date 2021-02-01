@@ -13,14 +13,15 @@ class TriageApiClient:
         auth = OAuth2Auth(token, client=oauth2_session)
         # TODO using OAuth2Auth directly instead of the session forces us to deal with token refreshing manually, which we have not implemented
 
+        host_string = f"{host}/api/public/v{api_version}"
         self.jsonapi_session = jsonapi_client.Session(
-            host, request_kwargs={"auth": auth}
+            host_string, request_kwargs={"auth": auth}
         )
 
     def get_document(self, resource_type, filter_params=None):
-        path = f"api/public/v2/{resource_type}"
-
         if filter_params:
-            return self.jsonapi_session.iterate(path, FilterParams(filter_params))
+            return self.jsonapi_session.iterate(
+                resource_type, FilterParams(filter_params)
+            )
 
-        return self.jsonapi_session.iterate(path)
+        return self.jsonapi_session.iterate(resource_type)
