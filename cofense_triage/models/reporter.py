@@ -22,3 +22,6 @@ class Reporter:
 
     def to_json(self):
         return json.dumps(self.document.json)
+
+
+RESOURCE_CLASS = {"reporters": Reporter}

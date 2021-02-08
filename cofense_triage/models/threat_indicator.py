@@ -22,3 +22,6 @@ class ThreatIndicator:
 
     def to_json(self):
         return json.dumps(self.document.json)
+
+
+RESOURCE_CLASS = {"threat_indicators": ThreatIndicator}

@@ -30,3 +30,6 @@ class AttachmentPayload:
 
     def to_json(self):
         return json.dumps(self.document.json)
+
+
+RESOURCE_CLASS = {"attachment_payloads": AttachmentPayload}

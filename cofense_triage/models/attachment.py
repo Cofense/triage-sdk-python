@@ -18,15 +18,18 @@ class Attachment:
 
     @property
     def attachment_payload(self):
-        from cofense_triage.attachment_payload import AttachmentPayload
+        from cofense_triage.models.attachment_payload import AttachmentPayload
 
         return AttachmentPayload(self.document["attachment_payload"])
 
     @property
     def report(self):
-        from cofense_triage.report import Report
+        from cofense_triage.models.report import Report
 
         return Report(self.document["report"][0])
 
     def to_json(self):
         return json.dumps(self.document.json)
+
+
+RESOURCE_CLASS = {"attachments": Attachment}

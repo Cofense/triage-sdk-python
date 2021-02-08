@@ -1,10 +1,7 @@
 from cofense_triage.triage_api_client import TriageApiClient
 from cofense_triage.errors import ReporterNotFoundError
 
-from cofense_triage.attachment import Attachment
-from cofense_triage.report import Report
-from cofense_triage.reporter import Reporter
-from cofense_triage.threat_indicator import ThreatIndicator
+from cofense_triage.models import RESOURCE_CLASSES
 
 
 class Triage:
@@ -37,7 +34,7 @@ class Triage:
 
     def fetch_reports(self, filter_params=[], resource_type="reports"):
         return (
-            Report(document)
+            RESOURCE_CLASSES["reports"](document)
             for document in self.api_client.get_document(resource_type, filter_params)
         )
 
@@ -64,13 +61,13 @@ class Triage:
 
     def fetch_reporters(self, filter_params=[]):
         return (
-            Reporter(document)
+            RESOURCE_CLASSES["reporters"](document)
             for document in self.api_client.get_document("reporters", filter_params)
         )
 
     def fetch_attachments(self, filter_params=[]):
         return (
-            Attachment(document)
+            RESOURCE_CLASSES["attachments"](document)
             for document in self.api_client.get_document("attachments", filter_params)
         )
 
@@ -79,7 +76,7 @@ class Triage:
 
     def fetch_threat_indicators(self, filter_params=[]):
         return (
-            ThreatIndicator(document)
+            RESOURCE_CLASSES["threat_indicators"](document)
             for document in self.api_client.get_document(
                 "threat_indicators", filter_params
             )
