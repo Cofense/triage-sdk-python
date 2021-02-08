@@ -1,4 +1,5 @@
 import re
+import json
 
 import pytest
 
@@ -18,13 +19,17 @@ def mock_all_triage_requests(requests_mock, fixture_from_file):
         re.compile("https://triage.example.com/"),
         text=fixture_from_file("empty.json"),
     )
+    requests_mock.post(
+        re.compile("https://triage.example.com/"),
+        text=fixture_from_file("reports.json"),
+    )
 
 
 def test_fetch_reporters_by_address(requests_mock, triage):
     list(triage.fetch_reporters_by_address("reporter1@example.com"))
 
     assert_get(
-        requests_mock.request_history[-1].url,
+        requests_mock.last_request.url,
         "/api/public/v2/reporters",
         {"filter[email]": ["reporter1@example.com"]},
     )
