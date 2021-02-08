@@ -30,8 +30,12 @@ class TriageApiClient:
 
         return self.jsonapi_session.iterate(resource_type)
 
-    def create_document(self, resource_type, **attrs):
-        return self.jsonapi_session.create_and_commit(
-            resource_type,
-            fields=attrs,  # Triage properties contain underscores, so pass a dict as fields param
-        )
+    def create_documents(self, resource_type, resources):
+        for resource in resources:
+            # Triage properties contain underscores, so use `fields` instead of expanding kwargs
+            new_resource = self.jsonapi_session.create(resource_type, fields=resource)
+
+            # The resource must be manually added to the session. Perhaps a bug in jsonapi_client.
+            self.jsonapi_session.add_resources(new_resource)
+
+        return self.jsonapi_session.commit()

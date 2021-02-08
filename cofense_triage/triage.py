@@ -16,6 +16,25 @@ class Triage:
             client_secret=client_secret,
         )
 
+    def __getattr__(self, name):
+        if name.startswith("create_"):
+
+            def _missing(resources=[], **kwargs):
+                # TODO Python 3.9: name = name.removeprefix("create_")
+                resource_name = name[7:]
+
+                if isinstance(resources, dict):
+                    resources = [resources]
+                elif resources is None:
+                    resources = []
+
+                if kwargs:
+                    resources.append(kwargs)
+
+                return self.api_client.create_documents(resource_name, resources)
+
+            return _missing
+
     def fetch_reports(self, filter_params=[], resource_type="reports"):
         return (
             Report(document)

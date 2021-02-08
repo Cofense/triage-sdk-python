@@ -28,3 +28,56 @@ def test_fetch_reporters_by_address(requests_mock, triage):
         "/api/public/v2/reporters",
         {"filter[email]": ["reporter1@example.com"]},
     )
+
+
+def test_create_resources_list_of_attrs(mocker, triage):
+    mocker.patch("cofense_triage.triage_api_client.TriageApiClient.create_documents")
+
+    triage.create_threat_indicators([{"a": 5, "b": 6}, {"a": 7, "b": 8}])
+
+    triage.api_client.create_documents.assert_called_with(
+        "threat_indicators", [{"a": 5, "b": 6}, {"a": 7, "b": 8}]
+    )
+
+
+def test_create_resources_kwargs(mocker, triage):
+    mocker.patch("cofense_triage.triage_api_client.TriageApiClient.create_documents")
+
+    triage.create_threat_indicators(a=5, b=6)
+
+    triage.api_client.create_documents.assert_called_with(
+        "threat_indicators", [{"a": 5, "b": 6}]
+    )
+
+
+def test_create_resources_list_and_kwargs(mocker, triage):
+    mocker.patch("cofense_triage.triage_api_client.TriageApiClient.create_documents")
+
+    triage.create_threat_indicators([{"a": 5, "b": 6}], a=7, b=8)
+
+    triage.api_client.create_documents.assert_called_with(
+        "threat_indicators", [{"a": 5, "b": 6}, {"a": 7, "b": 8}]
+    )
+
+
+def test_create_threat_indicator(requests_mock, triage):
+    triage.create_threat_indicators(
+        threat_level="Suspicious", threat_type="Sender", threat_value="evil@example.com"
+    )
+
+    # assert requests_mock.call_count == 1
+    assert (
+        requests_mock.last_request.url
+        == "https://triage.example.com/api/public/v2/threat_indicators"
+    )
+    assert json.loads(requests_mock.last_request.body) == {
+        "data": {
+            "type": "threat_indicators",
+            "attributes": {
+                "threat_level": "Suspicious",
+                "threat_type": "Sender",
+                "threat_value": "evil@example.com",
+            },
+            "relationships": {},
+        }
+    }
