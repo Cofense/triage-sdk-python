@@ -1,0 +1,11 @@
+{
+	"threat_indicators": {
+		"properties": {
+			"threat_level": {"type": "string"},
+			"threat_type": {"type": "string"},
+			"threat_value": {"type": "string"},
+			"threat_source": {"type": ["string", "null"]}
+		},
+		"required": ["threat_level", "threat_type", "threat_value"]
+	}
+}

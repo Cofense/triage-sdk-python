@@ -1,6 +1,9 @@
 from authlib.integrations.requests_client import OAuth2Session, OAuth2Auth
-from cofense_triage.filter_params import FilterParams
 import jsonapi_client
+import json
+import pkg_resources
+
+from cofense_triage.filter_params import FilterParams
 
 
 class TriageApiClient:
@@ -15,7 +18,9 @@ class TriageApiClient:
 
         host_string = f"{host}/api/public/v{api_version}"
         self.jsonapi_session = jsonapi_client.Session(
-            host_string, request_kwargs={"auth": auth}
+            host_string,
+            request_kwargs={"auth": auth},
+            schema=json.load(pkg_resources.resource_stream(__package__, "schema.json")),
         )
 
     def get_document(self, resource_type, filter_params=None):
