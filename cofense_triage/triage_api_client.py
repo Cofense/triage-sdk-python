@@ -29,3 +29,9 @@ class TriageApiClient:
             )
 
         return self.jsonapi_session.iterate(resource_type)
+
+    def create_document(self, resource_type, **attrs):
+        return self.jsonapi_session.create_and_commit(
+            resource_type,
+            fields=attrs,  # Triage properties contain underscores, so pass a dict as fields param
+        )
