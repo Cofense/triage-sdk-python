@@ -11,6 +11,7 @@ def fixture_from_file():
 
     return read_fixture_from_file
 
+
 @pytest.fixture
 def triage(mock_oauth_token):
     return Triage(
@@ -19,6 +20,7 @@ def triage(mock_oauth_token):
         client_id="some-client-id",
         client_secret="some-client-secret",
     )
+
 
 @pytest.fixture
 def mock_oauth_token(requests_mock):
