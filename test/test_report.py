@@ -9,7 +9,7 @@ def test_parse(requests_mock, triage, fixture_from_file):
 
     report = next(triage.fetch_reports())
 
-    assert report.report_id == "1"
+    assert report.resource_id == "1"
     assert report.from_address == "zack.bins@example.net"
     assert report.match_priority == 3
     assert report.reported_at == "2020-09-22T05:52:20.859Z"
