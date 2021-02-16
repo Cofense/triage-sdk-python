@@ -35,6 +35,7 @@ class TriageApiClient:
             f"{self.host}/api/public/v{self.api_version}",
             request_kwargs={"auth": self._build_auth_object()},
             schema=TRIAGE_SCHEMA,
+            use_relationship_iterator=True,
         )
 
     def get_document(self, resource_type, filter_params=None):

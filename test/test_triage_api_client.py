@@ -44,4 +44,5 @@ class TestTriageApiClient:
             "https://some-triage-host/api/public/v2",
             request_kwargs={"auth": mock_auth_object()},
             schema=mocker.ANY,
+            use_relationship_iterator=True,
         )
