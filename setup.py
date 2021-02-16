@@ -13,8 +13,7 @@ setuptools.setup(
         "cofense_triage": ["schema.json"]
     },
     install_requires=[
-        "authlib",
+        "requests_oauthlib",
         "jsonapi_client",
-        "requests",
     ],
 )

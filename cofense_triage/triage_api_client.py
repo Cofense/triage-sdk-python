@@ -1,4 +1,5 @@
-from authlib.integrations.requests_client import OAuth2Session, OAuth2Auth
+from oauthlib.oauth2 import BackendApplicationClient
+from requests_oauthlib import OAuth2Session, OAuth2
 import jsonapi_client
 
 from cofense_triage.filter_params import FilterParams
@@ -10,15 +11,29 @@ class TriageApiClient:
         if not api_version == 2:
             raise "unsupported API version"
 
-        oauth2_session = OAuth2Session(client_id, client_secret)
-        token = oauth2_session.fetch_token(f"{host}/oauth/token")
-        auth = OAuth2Auth(token, client=oauth2_session)
-        # TODO using OAuth2Auth directly instead of the session forces us to deal with token refreshing manually, which we have not implemented
+        self.host = host
+        self.api_version = api_version
+        self.client_id = client_id
+        self.client_secret = client_secret
 
-        host_string = f"{host}/api/public/v{api_version}"
-        self.jsonapi_session = jsonapi_client.Session(
-            host_string,
-            request_kwargs={"auth": auth},
+        self.jsonapi_session = self._build_jsonapi_session()
+
+    def _build_auth_object(self):
+        client = BackendApplicationClient(client_id=self.client_id)
+        oauth_session = OAuth2Session(client=client)
+        token = oauth_session.fetch_token(
+            token_url=f"{self.host}/oauth/token",
+            client_id=self.client_id,
+            client_secret=self.client_secret,
+        )
+
+        return OAuth2(client_id=self.client_id, client=client, token=token)
+
+    def _build_jsonapi_session(self):
+        # TODO we have to deal with token expiration ourselves. jsonapi_session should be able to take an OAuth2Session.
+        return jsonapi_client.Session(
+            f"{self.host}/api/public/v{self.api_version}",
+            request_kwargs={"auth": self._build_auth_object()},
             schema=TRIAGE_SCHEMA,
         )
 
