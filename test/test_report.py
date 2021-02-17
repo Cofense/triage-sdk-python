@@ -7,7 +7,7 @@ def test_parse(requests_mock, triage, fixture_from_file):
         text=fixture_from_file("reports.json"),
     )
 
-    report = next(triage.fetch_reports())
+    report = next(triage.get_reports())
 
     assert report.resource_id == "1"
     assert report.from_address == "zack.bins@example.net"
@@ -38,7 +38,7 @@ def test_attachments(requests_mock, triage, fixture_from_file):
         text=fixture_from_file("attachment_payloads.json"),
     )
 
-    report = next(triage.fetch_reports())
+    report = next(triage.get_reports())
 
     attachment = next(report.attachments)
     assert attachment.filename == "taco_menu.pdf"

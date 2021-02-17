@@ -14,70 +14,65 @@ class Triage:
         )
 
     def __getattr__(self, name):
-        if name.startswith("create_"):
+        if name.startswith("get_"):
+            # TODO Python 3.9: name = name.removeprefix("create_")
+            resource_name = name[4:]
+            return self._get_resources_function(resource_name)
+        elif name.startswith("create_"):
+            # TODO Python 3.9: name = name.removeprefix("create_")
+            resource_name = name[7:]
+            return self._create_resources_function(resource_name)
+        else:
+            raise AttributeError(name)
 
-            def _missing(resources=[], **kwargs):
-                # TODO Python 3.9: name = name.removeprefix("create_")
-                resource_name = name[7:]
+    def _create_resources_function(self, resource_name):
+        def _function(resources=[], **kwargs):
+            if isinstance(resources, dict):
+                resources = [resources]
+            elif resources is None:
+                resources = []
 
-                if isinstance(resources, dict):
-                    resources = [resources]
-                elif resources is None:
-                    resources = []
+            if kwargs:
+                resources.append(kwargs)
 
-                if kwargs:
-                    resources.append(kwargs)
+            return self.api_client.create_documents(resource_name, resources)
 
-                return self.api_client.create_documents(resource_name, resources)
+        return _function
 
-            return _missing
+    def _get_resources_function(self, resource_name):
+        resource_class = RESOURCE_CLASSES_MANY[resource_name]
 
-    def fetch_reports(self, filter_params=[], resource_type="reports"):
-        return (
-            RESOURCE_CLASSES_MANY["reports"](document)
-            for document in self.api_client.get_document(resource_type, filter_params)
-        )
+        def _function(filter_params=[]):
+            return (
+                resource_class(document)
+                for document in self.api_client.get_documents(
+                    resource_name, filter_params
+                )
+            )
 
-    def fetch_processed_reports(self, filter_params=[]):
-        return self.fetch_reports(
+        return _function
+
+    def get_processed_reports(self, filter_params=[]):
+        return self.get_reports(
             filter_params + [{"attr": "location", "val": "Processed"}]
         )
 
-    def fetch_processed_reports_since(self, date, filter_params=[]):
-        return self.fetch_processed_reports(
+    def get_processed_reports_since(self, date, filter_params=[]):
+        return self.get_processed_reports(
             filter_params + [{"attr": "created_at", "val": date, "op": "gt"}]
         )
 
-    def fetch_processed_reports_by_reporter(self, address, filter_params=[]):
-        reporters = list(self.fetch_reporters_by_address(address))
+    def get_processed_reports_by_reporter(self, address, filter_params=[]):
+        reporters = list(self.get_reporters_by_address(address))
 
         if not len(reporters) == 1:
             raise ReporterNotFoundError(address)
 
-        return self.fetch_reports(
+        return self.get_reports(
             filter_params + [{"attr": "location", "val": "Processed"}],
-            resource_type=f"reporters/{reporters[0].reporter_id}/reports",
+            resource_type=f"reporters/{reporters[0].resource_id}/reports",
         )
 
-    def fetch_reporters(self, filter_params=[]):
-        return (
-            RESOURCE_CLASSES_MANY["reporters"](document)
-            for document in self.api_client.get_document("reporters", filter_params)
-        )
-
-    def fetch_attachments(self, filter_params=[]):
-        return (
-            RESOURCE_CLASSES_MANY["attachments"](document)
-            for document in self.api_client.get_document("attachments", filter_params)
-        )
-
-    def fetch_reporters_by_address(self, address, filter_params=[]):
-        return self.fetch_reporters(filter_params + [{"attr": "email", "val": address}])
-
-    def fetch_threat_indicators(self, filter_params=[]):
-        return (
-            RESOURCE_CLASSES_MANY["threat_indicators"](document)
-            for document in self.api_client.get_document(
-                "threat_indicators", filter_params
-            )
-        )
+    def get_reporters_by_email(self, address, filter_params=[]):
+        # TODO handle list of addresses
+        return self.get_reporters(filter_params + [{"attr": "email", "val": address}])

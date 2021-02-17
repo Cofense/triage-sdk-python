@@ -7,7 +7,7 @@ def test_parse(requests_mock, triage, fixture_from_file):
         text=fixture_from_file("threat_indicators.json"),
     )
 
-    threat_indicator = next(triage.fetch_threat_indicators())
+    threat_indicator = next(triage.get_threat_indicators())
 
     assert threat_indicator.resource_id == "1"
     assert threat_indicator.threat_type == "Sender"

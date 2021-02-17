@@ -7,7 +7,7 @@ def test_parse(requests_mock, triage, fixture_from_file):
         text=fixture_from_file("reporters.json"),
     )
 
-    reporter = next(triage.fetch_reporters())
+    reporter = next(triage.get_reporters())
 
     assert reporter.resource_id == "1"
     assert reporter.email == "darren@example.com"
