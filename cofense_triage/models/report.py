@@ -1,8 +1,7 @@
 from cofense_triage.models.base_model import BaseModel
 
 
-RESOURCE_NAME_MANY = "reports"
-RESOURCE_NAME_SINGLE = "report"
+RESOURCE_NAME = "reports"
 
 
 class Report(BaseModel):

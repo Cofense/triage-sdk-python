@@ -1,8 +1,7 @@
 from cofense_triage.models.base_model import BaseModel
 
 
-RESOURCE_NAME_MANY = "threat_indicators"
-RESOURCE_NAME_SINGLE = "threat_indicator"
+RESOURCE_NAME = "threat_indicators"
 
 
 class ThreatIndicator(BaseModel):

@@ -1,8 +1,7 @@
 from cofense_triage.models.base_model import BaseModel
 
 
-RESOURCE_NAME_MANY = "attachments"
-RESOURCE_NAME_SINGLE = "attachment"
+RESOURCE_NAME = "attachments"
 
 
 class Attachment(BaseModel):
