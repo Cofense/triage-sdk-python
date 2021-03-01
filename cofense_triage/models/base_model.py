@@ -22,6 +22,17 @@ class BaseModel(abc.ABC):
         else:
             return self.document[name]
 
+    def __setattr__(self, name, value):
+        if name == "document":
+            return super().__setattr__(name, value)
+        self.document[name] = value
+
+    def delete(self):
+        self.document.delete()
+
+    def commit(self):
+        self.document.commit()
+
     @property
     def resource_id(self):
         return self.document.id
