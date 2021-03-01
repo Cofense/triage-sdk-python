@@ -5,6 +5,8 @@ For more information about Cofense Triage, see <https://cofense.com>.
 
 Refer to your Triage API documentation for details about the data schema.
 
+This package works with Triage 1.20 and later.
+
 ## Installation
 
 This package is available on PyPI.
