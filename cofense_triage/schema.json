@@ -5,8 +5,8 @@
 			"md5": {"type": "string"},
 			"sha256": {"type": "string"},
 			"risk_score": {"type": ["integer", "null"]},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"attachments": {"relation": "to-many", "resource": "attachments"},
 			"clusters": {"relation": "to-many", "resource": "clusters"},
 			"reports": {"relation": "to-many", "resource": "reports"}
@@ -17,8 +17,8 @@
 			"filename": {"type": "string"},
 			"size": {"type": "integer"},
 			"is_child": {"type": "boolean"},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"attachment_payload": {"relation": "to-one", "resource": "attachments"},
 			"parent": {"relation": "to-one", "resource": "attachments"},
 			"report": {"relation": "to-one", "resource": "reports"}
@@ -31,8 +31,8 @@
 			"malicious": {"type": "boolean"},
 			"color": {"type": "string"},
 			"archived": {"type": "boolean"},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"one_clicks": {"relation": "to-many", "resource": "one_clicks"},
 			"reports": {"relation": "to-many", "resource": "reports"}
 		}
@@ -57,8 +57,8 @@
 			"rules_count": {"type": "integer"},
 			"urls_count": {"type": "integer"},
 			"vip_reporters_count": {"type": "integer"},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"attachment_payloads": {"relation": "to-many", "resource": "attachments"},
 			"hostnames": {"relation": "to-many", "resource": "hostnames"},
 			"reports": {"relation": "to-many", "resource": "reports"},
@@ -71,8 +71,8 @@
 		"properties": {
 			"key": {"type": "string"},
 			"value": {"type": "string"},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"reports": {"relation": "to-many", "resource": "reports"}
 		}
 	},
@@ -80,8 +80,8 @@
 		"properties": {
 			"hostname": {"type": ["string", "null"]},
 			"risk_score": {"type": ["integer", "null"]},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"clusters": {"relation": "to-many", "resource": "clusters"},
 			"reports": {"relation": "to-many", "resource": "reports"},
 			"urls": {"relation": "to-many", "resource": "urls"}
@@ -112,8 +112,8 @@
 				"vision_search": {"type": "string"},
 				"vision_quarantine": {"type": "string"}
 			}},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"operators": {"relation": "to-many", "resource": "operators"}
 		}
 	},
@@ -122,8 +122,8 @@
 			"name": {"type": "string"},
 			"icon": {"type": "string"},
 			"categorization_tags": {"type": "array", "items": {"type": "string"}},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"category": {"relation": "to-one", "resource": "categories"},
 			"response": {"relation": "to-one", "resource": "responses"}
 		}
@@ -145,8 +145,8 @@
 			"sign_in_count": {"type": "integer"},
 			"last_sign_in_at": {"type": ["string", "null"]},
 			"password_changed_at": {"type": "string"},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"identity_provider": {"relation": "to-one", "resource": "identity_providers"},
 			"assigned_reports": {"relation": "to-many", "resource": "reports"}
 		}
@@ -158,8 +158,8 @@
 			"last_reported_at": {"type": "string"},
 			"reputation_score": {"type": "integer"},
 			"vip": {"type": "boolean"},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"clusters": {"relation": "to-many", "resource": "clusters"},
 			"reports": {"relation": "to-many", "resource": "reports"}
 		}
@@ -181,8 +181,8 @@
 			"tags": {"type": "array", "items": {"type": "string"}},
 			"categorization_tags": {"type": "array", "items": {"type": "string"}},
 			"processed_at": {"type": ["string", "null"]},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"assignee": {"relation": "to-one", "resource": "assignees"},
 			"category": {"relation": "to-one", "resource": "categories"},
 			"cluster": {"relation": "to-one", "resource": "clusters"},
@@ -208,8 +208,8 @@
 			"subject": {"type": "string"},
 			"attach_original": {"type": "boolean"},
 			"body": {"type": "string"},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"one_clicks": {"relation": "to-many", "resource": "one_clicks"}
 		}
 	},
@@ -242,8 +242,8 @@
 			"threat_type": {"type": "string"},
 			"threat_value": {"type": "string"},
 			"threat_source": {"type": ["string", "null"]},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"reports": {"relation": "to-many", "resource": "reports"}
 		},
 		"required": ["threat_level", "threat_type", "threat_value"]
@@ -252,8 +252,8 @@
 		"properties": {
 			"url": {"type": "string"},
 			"risk_score": {"type": ["integer", "null"]},
-			"created_at": {"type": "string"},
-			"updated_at": {"type": "string"},
+			"created_at": {"type": ["string", "null"]},
+			"updated_at": {"type": ["string", "null"]},
 			"hostname": {"relation": "to-one", "resource": "hostnames"},
 			"clusters": {"relation": "to-many", "resource": "clusters"},
 			"reports": {"relation": "to-many", "resource": "reports"}
