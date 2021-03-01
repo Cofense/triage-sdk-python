@@ -78,7 +78,7 @@
 	},
 	"hostnames": {
 		"properties": {
-			"hostname": {"type": "string"},
+			"hostname": {"type": ["string", "null"]},
 			"risk_score": {"type": ["integer", "null"]},
 			"created_at": {"type": "string"},
 			"updated_at": {"type": "string"},
@@ -97,8 +97,21 @@
 			"certificate_fingerprint": {"type": "string"},
 			"sign_on_url": {"type": "string"},
 			"sign_off_url": {"type": "string"},
-			"attribute_mapping": {"type": "object"},
-			"group_mapping": {"type": "object"},
+			"attribute_mapping": {"type": "object", "properties": {
+				"email": {"type": "string"},
+				"first_name":  {"type": "string"},
+				"last_name": {"type": "string"},
+				"nickname": {"type": "string"},
+				"groups": {"type": "string"}
+			}},
+			"group_mapping": {"type": "object", "properties": {
+				"triage_read_only": {"type": "string"},
+				"triage_operator": {"type": "string"},
+				"triage_superuser": {"type": "string"},
+				"vision_read_only": {"type": "string"},
+				"vision_search": {"type": "string"},
+				"vision_quarantine": {"type": "string"}
+			}},
 			"created_at": {"type": "string"},
 			"updated_at": {"type": "string"},
 			"operators": {"relation": "to-many", "resource": "operators"}
@@ -122,7 +135,10 @@
 			"last_name": {"type": "string"},
 			"nickname": {"type": "string"},
 			"time_zone": {"type": "string"},
-			"permissions": {"type": "object"},
+			"permissions": {"type": "object", "properties": {
+				"triage": {"type": "string"},
+				"vision": {"type": ["string", "null"]}
+			}},
 			"sso_enabled": {"type": "boolean"},
 			"two_factor_enabled": {"type": "boolean"},
 			"locked": {"type": "boolean"},
@@ -137,7 +153,7 @@
 	},
 	"reporters": {
 		"properties": {
-			"email": {"type": "string"},
+			"email": {"type": ["string", "null"]},
 			"reports_count": {"type": "integer"},
 			"last_reported_at": {"type": "string"},
 			"reputation_score": {"type": "integer"},
