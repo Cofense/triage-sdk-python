@@ -77,3 +77,8 @@ class Triage:
         if isinstance(address, list):
             address = ",".join(address)
         return self.get_reporters(filter_params + [{"attr": "email", "val": address}])
+
+    def get_operators_by_email(self, address, filter_params=[]):
+        if isinstance(address, list):
+            address = ",".join(address)
+        return self.get_operators(filter_params + [{"attr": "email", "val": address}])
