@@ -143,7 +143,7 @@
 			"two_factor_enabled": {"type": "boolean"},
 			"locked": {"type": "boolean"},
 			"sign_in_count": {"type": "integer"},
-			"last_sign_in_at": {"type": "string"},
+			"last_sign_in_at": {"type": ["string", "null"]},
 			"password_changed_at": {"type": "string"},
 			"created_at": {"type": "string"},
 			"updated_at": {"type": "string"},
