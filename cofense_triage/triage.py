@@ -74,5 +74,6 @@ class Triage:
         )
 
     def get_reporters_by_email(self, address, filter_params=[]):
-        # TODO handle list of addresses
+        if isinstance(address, list):
+            address = ",".join(address)
         return self.get_reporters(filter_params + [{"attr": "email", "val": address}])
