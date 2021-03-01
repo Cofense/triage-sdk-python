@@ -43,6 +43,9 @@ class Triage:
         resource_class = RESOURCE_CLASSES[resource_name]
 
         def _function(filter_params=[]):
+            if not isinstance(filter_params, list):
+                filter_params = [filter_params]
+
             return (
                 resource_class(document)
                 for document in self.api_client.get_documents(

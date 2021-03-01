@@ -61,14 +61,20 @@ operators = triage.get_operators_by_email("j.random@cofense.com")
 ```
 
 You can also pass generic filter conditions into the base `get_resourcename()`
-methods or the convenience methods. Filter conditions are represented by a list
-of dicts, where each dict contains `attr` (attribute name), `val` (value), and
-optionally `op` (comparison operation, defaults to `eq`). See the Triage API
-documentation for supported attributes and operations.
+methods or the convenience methods. Filter conditions are represented by a dict
+or list of dicts, where each dict contains `attr` (attribute name), `val`
+(value), and optionally `op` (comparison operation, defaults to `eq`). See the
+Triage API documentation for supported attributes and operations, as well as
+composition logic.
 
 ```python
 triage.get_reporters(
+    {"attr": "email", "op": "not_end", "val": "example.com"}
+)
+
+triage.get_reporters(
     [
+        {"attr": "reports_count", "op": "gt", "val": "0"},
         {"attr": "email", "op": "not_end", "val": "example.com"}
     ]
 )
@@ -82,16 +88,14 @@ describing the records to be created.
 
 ```python
 triage.create_rules(
-    [
-        {
-          "name": "Great_New_Rule",
-          "priority": 3,
-          "scope": "Email",
-          "rule_context": "Phishing Tactic",
-          "content": "YARA code here",
-          "time_to_live": "1 year"
-        }
-    ]
+    {
+      "name": "Great_New_Rule",
+      "priority": 3,
+      "scope": "Email",
+      "rule_context": "Phishing Tactic",
+      "content": "YARA code here",
+      "time_to_live": "1 year"
+    }
 )
 ```
 
