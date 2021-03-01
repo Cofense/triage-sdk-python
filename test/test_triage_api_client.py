@@ -29,8 +29,9 @@ class TestTriageApiClient:
 
     def test__build_jsonapi_session(self, mocker):
         mock_jsonapi_session = mocker.patch("jsonapi_client.Session")
-        mock_auth_object = mocker.patch(
-            "cofense_triage.triage_api_client.TriageApiClient._build_auth_object"
+        mocker.patch(
+            "cofense_triage.triage_api_client.TriageApiClient._build_auth_object",
+            return_value=("mock-oauth-session-obj", "mock-oauth-auth-obj"),
         )
 
         TriageApiClient(
@@ -42,7 +43,7 @@ class TestTriageApiClient:
 
         mock_jsonapi_session.assert_called_once_with(
             "https://some-triage-host/api/public/v2",
-            request_kwargs={"auth": mock_auth_object()},
+            request_kwargs={"auth": "mock-oauth-auth-obj"},
             schema=mocker.ANY,
             use_relationship_iterator=True,
         )

@@ -16,6 +16,7 @@ class TriageApiClient:
         self.client_id = client_id
         self.client_secret = client_secret
 
+        self.oauth_session, self.oauth_auth = self._build_auth_object()
         self.jsonapi_session = self._build_jsonapi_session()
 
     def _build_auth_object(self):
@@ -27,13 +28,16 @@ class TriageApiClient:
             client_secret=self.client_secret,
         )
 
-        return OAuth2(client_id=self.client_id, client=client, token=token)
+        return (
+            oauth_session,
+            OAuth2(client_id=self.client_id, client=client, token=token),
+        )
 
     def _build_jsonapi_session(self):
         # TODO we have to deal with token expiration ourselves. jsonapi_session should be able to take an OAuth2Session.
         return jsonapi_client.Session(
             f"{self.host}/api/public/v{self.api_version}",
-            request_kwargs={"auth": self._build_auth_object()},
+            request_kwargs={"auth": self.oauth_auth},
             schema=TRIAGE_SCHEMA,
             use_relationship_iterator=True,
         )

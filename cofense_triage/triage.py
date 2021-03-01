@@ -45,7 +45,9 @@ class Triage:
                 filter_params = [filter_params]
 
             return (
-                build_resource_class(resource_name, document)
+                build_resource_class(
+                    resource_name, document, oauth_session=self.api_client.oauth_session
+                )
                 for document in self.api_client.get_documents(
                     resource_name, filter_params
                 )

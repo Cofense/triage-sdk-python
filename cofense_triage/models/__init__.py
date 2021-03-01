@@ -5,8 +5,8 @@ import pkgutil
 RESOURCE_CLASSES = {}
 
 
-def build_resource_class(name, document):
-    return RESOURCE_CLASSES[name](document)
+def build_resource_class(name, document, oauth_session=None):
+    return RESOURCE_CLASSES[name](document, oauth_session)
 
 
 for module_info in pkgutil.iter_modules(__path__, prefix=f"{__package__}."):
