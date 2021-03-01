@@ -14,5 +14,13 @@ class Report(BaseModel):
         return self.document.links.self.url + "/download.jpg"
 
     @property
+    def jpg(self):
+        return self._oauth_session.get(self.jpg_url)
+
+    @property
     def png_url(self):
         return self.document.links.self.url + "/download.png"
+
+    @property
+    def png(self):
+        return self._oauth_session.get(self.png_url)
