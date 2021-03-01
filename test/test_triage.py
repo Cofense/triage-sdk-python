@@ -25,14 +25,42 @@ def mock_all_triage_requests(requests_mock, fixture_from_file):
     )
 
 
-def test_fetch_reporters_by_address(requests_mock, triage):
-    list(triage.fetch_reporters_by_address("reporter1@example.com"))
+def test_get_reporters_by_email(requests_mock, triage):
+    list(triage.get_reporters_by_email("reporter1@example.com"))
 
     assert_get(
         requests_mock.last_request.url,
         "/api/public/v2/reporters",
         {"filter[email]": ["reporter1@example.com"]},
     )
+
+
+def test_get_resources_no_filter(mocker, triage):
+    mocker.patch("cofense_triage.triage_api_client.TriageApiClient.get_documents")
+
+    triage.get_reporters()
+
+    triage.api_client.get_documents.assert_called_with("reporters", [])
+
+
+def test_get_resources_filter(mocker, triage):
+    mocker.patch("cofense_triage.triage_api_client.TriageApiClient.get_documents")
+
+    triage.get_reporters([{"attr": "name", "val": "ggg"}])
+
+    triage.api_client.get_documents.assert_called_with(
+        "reporters", [{"attr": "name", "val": "ggg"}]
+    )
+
+
+def test_get_resources_single(triage):
+    with pytest.raises(KeyError):
+        triage.get_reporter()
+
+
+def test_nonexistant_function(triage):
+    with pytest.raises(AttributeError):
+        triage.nonexistent_resource_type()
 
 
 def test_create_resources_list_of_attrs(mocker, triage):

@@ -38,7 +38,7 @@ class TriageApiClient:
             use_relationship_iterator=True,
         )
 
-    def get_document(self, resource_type, filter_params=None):
+    def get_documents(self, resource_type, filter_params=None):
         if filter_params:
             return self.jsonapi_session.iterate(
                 resource_type, FilterParams(filter_params)

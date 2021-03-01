@@ -2,13 +2,12 @@ import importlib
 import inspect
 import pkgutil
 
-RESOURCE_CLASSES_MANY = {}
-RESOURCE_CLASSES_SINGLE = {}
+RESOURCE_CLASSES = {}
 
 for module_info in pkgutil.iter_modules(__path__, prefix=f"{__package__}."):
     module = importlib.import_module(module_info.name)
 
-    if not hasattr(module, "RESOURCE_NAME_MANY"):
+    if not hasattr(module, "RESOURCE_NAME"):
         continue
 
     defined_classes = inspect.getmembers(
@@ -19,5 +18,4 @@ for module_info in pkgutil.iter_modules(__path__, prefix=f"{__package__}."):
     # There should only be one (name, class) tuple in the model module. Take the class.
     resource_class = defined_classes[0][1]
 
-    RESOURCE_CLASSES_MANY[module.RESOURCE_NAME_MANY] = resource_class
-    RESOURCE_CLASSES_SINGLE[module.RESOURCE_NAME_SINGLE] = resource_class
+    RESOURCE_CLASSES[module.RESOURCE_NAME] = resource_class

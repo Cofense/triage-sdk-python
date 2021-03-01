@@ -1,11 +1,262 @@
 {
+	"attachment_payloads": {
+		"properties": {
+			"mime_type": {"type": "string"},
+			"md5": {"type": "string"},
+			"sha256": {"type": "string"},
+			"risk_score": {"type": ["integer", "null"]},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"attachments": {"relation": "to-many", "resource": "attachments"},
+			"clusters": {"relation": "to-many", "resource": "clusters"},
+			"reports": {"relation": "to-many", "resource": "reports"}
+		}
+	},
+	"attachments": {
+		"properties": {
+			"filename": {"type": "string"},
+			"size": {"type": "integer"},
+			"is_child": {"type": "boolean"},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"attachment_payload": {"relation": "to-one", "resource": "attachments"},
+			"parent": {"relation": "to-one", "resource": "attachments"},
+			"report": {"relation": "to-one", "resource": "reports"}
+		}
+	},
+	"categories": {
+		"properties": {
+			"name": {"type": "string"},
+			"score": {"type": "integer"},
+			"malicious": {"type": "boolean"},
+			"color": {"type": "string"},
+			"archived": {"type": "boolean"},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"one_clicks": {"relation": "to-many", "resource": "one_clicks"},
+			"reports": {"relation": "to-many", "resource": "reports"}
+		}
+	},
+	"clusters": {
+		"properties": {
+			"risk_score": {"type": ["integer", "null"]},
+			"first_reported_at": {"type": "string"},
+			"oldest_unprocessed_reported_at": {"type": ["string", "null"]},
+			"last_reported_at": {"type": ["string", "null"]},
+			"last_received_at": {"type": ["string", "null"]},
+			"last_from_address": {"type": ["string", "null"]},
+			"last_subject": {"type": ["string", "null"]},
+			"average_reporter_reputation": {"type": "string"},
+			"match_priority": {"type": "integer"},
+			"tags": {"type": "array", "items": {"type": "string"}},
+			"host_source": {"type": "string"},
+			"attachments_count": {"type": "integer"},
+			"unprocessed_reports_count": {"type": "integer"},
+			"processed_reports_count": {"type": "integer"},
+			"total_reports_count": {"type": "integer"},
+			"rules_count": {"type": "integer"},
+			"urls_count": {"type": "integer"},
+			"vip_reporters_count": {"type": "integer"},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"attachment_payloads": {"relation": "to-many", "resource": "attachments"},
+			"hostnames": {"relation": "to-many", "resource": "hostnames"},
+			"reports": {"relation": "to-many", "resource": "reports"},
+			"reporters": {"relation": "to-many", "resource": "reporters"},
+			"rules": {"relation": "to-many", "resource": "rules"},
+			"urls": {"relation": "to-many", "resource": "urls"}
+		}
+	},
+	"headers": {
+		"properties": {
+			"key": {"type": "string"},
+			"value": {"type": "string"},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"reports": {"relation": "to-many", "resource": "reports"}
+		}
+	},
+	"hostnames": {
+		"properties": {
+			"hostname": {"type": ["string", "null"]},
+			"risk_score": {"type": ["integer", "null"]},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"clusters": {"relation": "to-many", "resource": "clusters"},
+			"reports": {"relation": "to-many", "resource": "reports"},
+			"urls": {"relation": "to-many", "resource": "urls"}
+		}
+	},
+	"identity_providers": {
+		"properties": {
+			"name": {"type": "string"},
+			"enabled": {"type": "boolean"},
+			"manage_operators": {"type": "boolean"},
+			"manage_permissions": {"type": "boolean"},
+			"certificate": {"type": "string"},
+			"certificate_fingerprint": {"type": "string"},
+			"sign_on_url": {"type": "string"},
+			"sign_off_url": {"type": "string"},
+			"attribute_mapping": {"type": "object", "properties": {
+				"email": {"type": "string"},
+				"first_name":  {"type": "string"},
+				"last_name": {"type": "string"},
+				"nickname": {"type": "string"},
+				"groups": {"type": "string"}
+			}},
+			"group_mapping": {"type": "object", "properties": {
+				"triage_read_only": {"type": "string"},
+				"triage_operator": {"type": "string"},
+				"triage_superuser": {"type": "string"},
+				"vision_read_only": {"type": "string"},
+				"vision_search": {"type": "string"},
+				"vision_quarantine": {"type": "string"}
+			}},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"operators": {"relation": "to-many", "resource": "operators"}
+		}
+	},
+	"one_clicks": {
+		"properties": {
+			"name": {"type": "string"},
+			"icon": {"type": "string"},
+			"categorization_tags": {"type": "array", "items": {"type": "string"}},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"category": {"relation": "to-one", "resource": "categories"},
+			"response": {"relation": "to-one", "resource": "responses"}
+		}
+	},
+	"operators": {
+		"properties": {
+			"email": {"type": "string"},
+			"first_name": {"type": "string"},
+			"last_name": {"type": "string"},
+			"nickname": {"type": "string"},
+			"time_zone": {"type": "string"},
+			"permissions": {"type": "object", "properties": {
+				"triage": {"type": "string"},
+				"vision": {"type": ["string", "null"]}
+			}},
+			"sso_enabled": {"type": "boolean"},
+			"two_factor_enabled": {"type": "boolean"},
+			"locked": {"type": "boolean"},
+			"sign_in_count": {"type": "integer"},
+			"last_sign_in_at": {"type": ["string", "null"]},
+			"password_changed_at": {"type": "string"},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"identity_provider": {"relation": "to-one", "resource": "identity_providers"},
+			"assigned_reports": {"relation": "to-many", "resource": "reports"}
+		}
+	},
+	"reporters": {
+		"properties": {
+			"email": {"type": ["string", "null"]},
+			"reports_count": {"type": "integer"},
+			"last_reported_at": {"type": "string"},
+			"reputation_score": {"type": "integer"},
+			"vip": {"type": "boolean"},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"clusters": {"relation": "to-many", "resource": "clusters"},
+			"reports": {"relation": "to-many", "resource": "reports"}
+		}
+	},
+	"reports": {
+		"properties": {
+			"location": {"type": "string"},
+			"risk_score": {"type": ["integer", "null"]},
+			"from_address": {"type": ["string", "null"]},
+			"subject": {"type": "string"},
+			"received_at": {"type": "string"},
+			"reported_at": {"type": "string"},
+			"raw_headers": {"type": "string"},
+			"text_body": {"type": "string"},
+			"html_body": {"type": "string"},
+			"md5": {"type": "string"},
+			"sha256": {"type": "string"},
+			"match_priority": {"type": "integer"},
+			"tags": {"type": "array", "items": {"type": "string"}},
+			"categorization_tags": {"type": "array", "items": {"type": "string"}},
+			"processed_at": {"type": ["string", "null"]},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"assignee": {"relation": "to-one", "resource": "assignees"},
+			"category": {"relation": "to-one", "resource": "categories"},
+			"cluster": {"relation": "to-one", "resource": "clusters"},
+			"reporter": {"relation": "to-one", "resource": "reporters"},
+			"attachment_payloads": {"relation": "to-many", "resource": "attachment_payloads"},
+			"attachments": {"relation": "to-many", "resource": "attachments"},
+			"headers": {"relation": "to-many", "resource": "headers"},
+			"hostnames": {"relation": "to-many", "resource": "hostnames"},
+			"urls": {"relation": "to-many", "resource": "urls"},
+			"rules": {"relation": "to-many", "resource": "rules"},
+			"threat_indicators": {"relation": "to-many", "resource": "threat_indicators"}
+		}
+	},
+	"responses": {
+		"properties": {
+			"name": {"type": "string"},
+			"description": {"type": ["string", "null"]},
+			"to_reporter": {"type": "boolean"},
+			"to_other": {"type": "boolean"},
+			"to_other_address": {"type": ["string", "null"]},
+			"cc_address": {"type": ["string", "null"]},
+			"bcc_address": {"type": ["string", "null"]},
+			"subject": {"type": "string"},
+			"attach_original": {"type": "boolean"},
+			"body": {"type": "string"},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"one_clicks": {"relation": "to-many", "resource": "one_clicks"}
+		}
+	},
+	"rules": {
+		"properties": {
+			"name": {"type": "string"},
+			"description": {"type": "string"},
+			"priority": {"type": "integer"},
+			"tags": {"type": "array", "items": {"type": "string"}},
+			"scope": {"type": "string"},
+			"author_name": {"type": "string"},
+			"rule_context": {"type": "string"},
+			"active": {"type": "boolean"},
+			"content": {"type": "string"},
+			"time_to_live": {"type": "string"},
+			"share_with_cofense": {"type": "boolean"},
+			"reports_count": {"type": "integer"},
+			"imported_at": {"type": "string"},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"cluster_contex": {"relation": "to-one", "resource": "clusters"},
+			"report_context": {"relation": "to-one", "resource": "reports"},
+			"clusters": {"relation": "to-many", "resource": "clusters"},
+			"reports": {"relation": "to-many", "resource": "reports"}
+		}
+	},
 	"threat_indicators": {
 		"properties": {
 			"threat_level": {"type": "string"},
 			"threat_type": {"type": "string"},
 			"threat_value": {"type": "string"},
-			"threat_source": {"type": ["string", "null"]}
+			"threat_source": {"type": ["string", "null"]},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"reports": {"relation": "to-many", "resource": "reports"}
 		},
 		"required": ["threat_level", "threat_type", "threat_value"]
+	},
+	"urls": {
+		"properties": {
+			"url": {"type": "string"},
+			"risk_score": {"type": ["integer", "null"]},
+			"created_at": {"type": "string"},
+			"updated_at": {"type": "string"},
+			"hostname": {"relation": "to-one", "resource": "hostnames"},
+			"clusters": {"relation": "to-many", "resource": "clusters"},
+			"reports": {"relation": "to-many", "resource": "reports"}
+		}
 	}
 }
