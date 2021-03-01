@@ -1,7 +1,7 @@
 from cofense_triage.triage_api_client import TriageApiClient
 from cofense_triage.errors import ReporterNotFoundError
 
-from cofense_triage.models import RESOURCE_CLASSES
+from cofense_triage.models import build_resource_class
 
 
 class Triage:
@@ -40,14 +40,12 @@ class Triage:
         return _function
 
     def _get_resources_function(self, resource_name):
-        resource_class = RESOURCE_CLASSES[resource_name]
-
         def _function(filter_params=[]):
             if not isinstance(filter_params, list):
                 filter_params = [filter_params]
 
             return (
-                resource_class(document)
+                build_resource_class(resource_name, document)
                 for document in self.api_client.get_documents(
                     resource_name, filter_params
                 )

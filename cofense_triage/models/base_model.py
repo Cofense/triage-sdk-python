@@ -2,7 +2,7 @@ import abc
 import json
 from jsonapi_client.relationships import SingleRelationship
 
-from cofense_triage.models import RESOURCE_CLASSES
+from cofense_triage.models import build_resource_class
 
 
 class BaseModel(abc.ABC):
@@ -13,11 +13,12 @@ class BaseModel(abc.ABC):
         if name in self.document._relationships.keys_python():
             if isinstance(self.document.relationships[name], SingleRelationship):
                 resource_type_name = self.document[name].type
-                return RESOURCE_CLASSES[resource_type_name](self.document[name])
+                return build_resource_class(resource_type_name, self.document[name])
             else:
                 # it's a to-many relationship, so return a generator
                 return (
-                    RESOURCE_CLASSES[name](resource) for resource in self.document[name]
+                    build_resource_class(name, resource)
+                    for resource in self.document[name]
                 )
         else:
             return self.document[name]

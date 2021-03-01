@@ -53,11 +53,6 @@ def test_get_resources_filter(mocker, triage):
     )
 
 
-def test_get_resources_single(triage):
-    with pytest.raises(KeyError):
-        triage.get_reporter()
-
-
 def test_nonexistant_function(triage):
     with pytest.raises(AttributeError):
         triage.nonexistent_resource_type()

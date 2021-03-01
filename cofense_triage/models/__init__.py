@@ -4,6 +4,11 @@ import pkgutil
 
 RESOURCE_CLASSES = {}
 
+
+def build_resource_class(name, document):
+    return RESOURCE_CLASSES[name](document)
+
+
 for module_info in pkgutil.iter_modules(__path__, prefix=f"{__package__}."):
     module = importlib.import_module(module_info.name)
 
