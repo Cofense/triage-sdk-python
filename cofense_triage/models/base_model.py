@@ -47,5 +47,12 @@ class BaseModel(abc.ABC):
     def resource_id(self):
         return self.document.id
 
+    @property
+    def attributes(self):
+        return self.to_dict()["attributes"]
+
+    def to_dict(self):
+        return self.document.json  # This library-provided attr is actually a dict
+
     def to_json(self):
-        return json.dumps(self.document.json)
+        return json.dumps(self.to_dict())
