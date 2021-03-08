@@ -9,7 +9,7 @@ def read_readme():
 
 setuptools.setup(
     name="cofense_triage",
-    version="0.1",
+    version="0.1.0",
     author="Eddie Lebow",
     author_email="oss@cofense.com",
     maintainer="Cofense, Inc.",
