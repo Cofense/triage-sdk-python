@@ -44,7 +44,7 @@ for report in triage.get_reports():
     print(report)
 
 for threat_indicator in triage.get_threat_indicators():
-    print(threat_indicators)
+    print(threat_indicator)
 ```
 
 All `get_*` methods return iterators, which are evaluated lazily—Requests for
@@ -62,8 +62,6 @@ The Triage class provides some convenience functions for common requests. See
 reports = triage.get_processed_reports()
 
 reports = triage.get_processed_reports_since("2020-01-01")
-
-reports = triage.get_processed_reports_since("7 days ago") # any date format that Rails understands
 
 reports = triage.get_processed_reports_by_reporter("j.random@cofense.com")
 
@@ -132,6 +130,47 @@ rule = next(triage.get_rules({"attr": "name", "val": "Great_New_Rule"}))
 rule.delete()
 
 rule.commit()
+```
+
+## Examples
+
+Find all rules with "Credential" in the name and set the priority to 4.
+
+```python
+for rule in triage.get_rules({"attr": "name", "val": "Credential", "op": "cont"}):
+    rule.priority = 4
+    rule.commit()
+```
+
+Build a CSV of reporters from the last week, sorted by number of reports.
+
+```python
+import datetime
+import itertools
+import csv
+
+reports = triage.get_reports(
+    [
+        {
+            "attr": "created_at",
+            "op": "gt",
+            "val": datetime.datetime.now() - datetime.timedelta(days=7),
+        }
+    ]
+)
+grouped_reports = itertools.groupby(reports, key=lambda report: report.reporter.email)
+results = [
+    {
+        "address": reporter_address,
+        "num_reports": len(list(reports)),
+    }
+    for reporter_address, reports in grouped_reports
+]
+
+with open("reporters_last_week.csv", "w", newline="") as f:
+    csv_writer = csv.DictWriter(f, fieldnames=results[0].keys())
+    csv_writer.writeheader()
+    csv_writer.writerows(results)
 ```
 
 ## License
